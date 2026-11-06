@@ -37,6 +37,12 @@ Captured November 6, 2026. Cropping removes the child-name header and part of th
 ### Nighttime Routine
 ![Nighttime Routine](nighttime-routine.jpg)
 
+### Bus countdown: Time to go!
+
+![Bus countdown at departure time](bus-countdown-preview.png)
+
+Clearly labeled isolated preview of the 7:28 AM departure state, using the dashboard's actual bus/road/school SVG, colors, countdown, and warning text. The surrounding layout is recreated for documentation; this is not a live dashboard screenshot. The flashing warning is shown in its visible phase. No live clock, helpers, or household state were changed.
+
 ## Dependencies and installation notes
 
 Home Assistant and the community `custom:button-card` frontend resource are required. This is a YAML dashboard/package project, not a custom integration or HACS-installable repository.
