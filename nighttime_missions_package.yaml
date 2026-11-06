@@ -1,0 +1,387 @@
+# Nighttime Missions: five nightly tasks, 14 animated stars, weekly stars
+input_boolean:
+  night_child_one_bath:
+    name: Child One — Night Bath
+    icon: mdi:bathtub
+  night_child_one_pjs:
+    name: Child One — Night PJs
+    icon: mdi:human-child
+  night_child_one_brush_teeth:
+    name: Child One — Night Brush teeth
+    icon: mdi:toothbrush
+  night_child_one_go_potty:
+    name: Child One — Night Go potty
+    icon: mdi:toilet
+  night_child_one_bedtime_bravery:
+    name: Child One — Night Bedtime bravery
+    icon: mdi:shield-star
+  night_child_one_star_mon:
+    name: Child One — Bedtime mon star
+    icon: mdi:star
+  night_child_one_star_tue:
+    name: Child One — Bedtime tue star
+    icon: mdi:star
+  night_child_one_star_wed:
+    name: Child One — Bedtime wed star
+    icon: mdi:star
+  night_child_one_star_thu:
+    name: Child One — Bedtime thu star
+    icon: mdi:star
+  night_child_one_star_fri:
+    name: Child One — Bedtime fri star
+    icon: mdi:star
+  night_child_one_star_sat:
+    name: Child One — Bedtime sat star
+    icon: mdi:star
+  night_child_one_star_sun:
+    name: Child One — Bedtime sun star
+    icon: mdi:star
+  night_child_two_bath:
+    name: Child Two — Night Bath
+    icon: mdi:bathtub
+  night_child_two_pjs:
+    name: Child Two — Night PJs
+    icon: mdi:human-child
+  night_child_two_brush_teeth:
+    name: Child Two — Night Brush teeth
+    icon: mdi:toothbrush
+  night_child_two_go_potty:
+    name: Child Two — Night Go potty
+    icon: mdi:toilet
+  night_child_two_bedtime_bravery:
+    name: Child Two — Night Bedtime bravery
+    icon: mdi:shield-star
+  night_child_two_star_mon:
+    name: Child Two — Bedtime mon star
+    icon: mdi:star
+  night_child_two_star_tue:
+    name: Child Two — Bedtime tue star
+    icon: mdi:star
+  night_child_two_star_wed:
+    name: Child Two — Bedtime wed star
+    icon: mdi:star
+  night_child_two_star_thu:
+    name: Child Two — Bedtime thu star
+    icon: mdi:star
+  night_child_two_star_fri:
+    name: Child Two — Bedtime fri star
+    icon: mdi:star
+  night_child_two_star_sat:
+    name: Child Two — Bedtime sat star
+    icon: mdi:star
+  night_child_two_star_sun:
+    name: Child Two — Bedtime sun star
+    icon: mdi:star
+  night_child_three_bath:
+    name: Child Three — Night Bath
+    icon: mdi:bathtub
+  night_child_three_pjs:
+    name: Child Three — Night PJs
+    icon: mdi:human-child
+  night_child_three_brush_teeth:
+    name: Child Three — Night Brush teeth
+    icon: mdi:toothbrush
+  night_child_three_go_potty:
+    name: Child Three — Night Go potty
+    icon: mdi:toilet
+  night_child_three_bedtime_bravery:
+    name: Child Three — Night Bedtime bravery
+    icon: mdi:shield-star
+  night_child_three_star_mon:
+    name: Child Three — Bedtime mon star
+    icon: mdi:star
+  night_child_three_star_tue:
+    name: Child Three — Bedtime tue star
+    icon: mdi:star
+  night_child_three_star_wed:
+    name: Child Three — Bedtime wed star
+    icon: mdi:star
+  night_child_three_star_thu:
+    name: Child Three — Bedtime thu star
+    icon: mdi:star
+  night_child_three_star_fri:
+    name: Child Three — Bedtime fri star
+    icon: mdi:star
+  night_child_three_star_sat:
+    name: Child Three — Bedtime sat star
+    icon: mdi:star
+  night_child_three_star_sun:
+    name: Child Three — Bedtime sun star
+    icon: mdi:star
+input_select:
+  night_child_one_animation:
+    name: Child One — Nighttime star animation
+    options:
+    - bounce
+    - twirl
+    - wiggle
+    - float
+    - dance
+    - cartwheel
+    - heartbeat
+    - orbit
+    - jump
+    - swing
+    - disco
+    - rocket
+    - skate
+    - shooting
+    icon: mdi:star-shooting
+  night_child_two_animation:
+    name: Child Two — Nighttime star animation
+    options:
+    - bounce
+    - twirl
+    - wiggle
+    - float
+    - dance
+    - cartwheel
+    - heartbeat
+    - orbit
+    - jump
+    - swing
+    - disco
+    - rocket
+    - skate
+    - shooting
+    icon: mdi:star-shooting
+  night_child_three_animation:
+    name: Child Three — Nighttime star animation
+    options:
+    - bounce
+    - twirl
+    - wiggle
+    - float
+    - dance
+    - cartwheel
+    - heartbeat
+    - orbit
+    - jump
+    - swing
+    - disco
+    - rocket
+    - skate
+    - shooting
+    icon: mdi:star-shooting
+input_text:
+  night_missions_night_key:
+    name: Night missions — latest night reset date
+    max: 12
+  night_missions_week_key:
+    name: Night missions — active week
+    max: 12
+automation:
+- id: night_missions_reset
+  alias: Nighttime Missions — New night, clear tasks and randomize stars
+  description: A fresh bedtime begins every day at 4 PM; restart-safe after 4 PM.
+  triggers:
+  - trigger: time
+    at: '16:00:00'
+  - trigger: homeassistant
+    event: start
+  conditions:
+  - condition: template
+    value_template: '{{ now() >= today_at(''16:00'') and states(''input_text.night_missions_night_key'') != now().strftime(''%Y-%m-%d'')
+      }}'
+  actions:
+  - action: input_boolean.turn_off
+    target:
+      entity_id:
+      - input_boolean.night_child_one_bath
+      - input_boolean.night_child_one_pjs
+      - input_boolean.night_child_one_brush_teeth
+      - input_boolean.night_child_one_go_potty
+      - input_boolean.night_child_one_bedtime_bravery
+      - input_boolean.night_child_two_bath
+      - input_boolean.night_child_two_pjs
+      - input_boolean.night_child_two_brush_teeth
+      - input_boolean.night_child_two_go_potty
+      - input_boolean.night_child_two_bedtime_bravery
+      - input_boolean.night_child_three_bath
+      - input_boolean.night_child_three_pjs
+      - input_boolean.night_child_three_brush_teeth
+      - input_boolean.night_child_three_go_potty
+      - input_boolean.night_child_three_bedtime_bravery
+  - action: script.night_missions_reroll_animations
+  - action: input_text.set_value
+    target:
+      entity_id: input_text.night_missions_night_key
+    data:
+      value: '{{ now().strftime(''%Y-%m-%d'') }}'
+  mode: single
+- id: night_missions_weekly_reset
+  alias: Nighttime Missions — Weekly reset
+  description: Clear the earned day-star flags on Mondays at midnight; restart-safe.
+  triggers:
+  - trigger: time
+    at: 00:00:00
+  - trigger: homeassistant
+    event: start
+  conditions:
+  - condition: template
+    value_template: '{{ states(''input_text.night_missions_week_key'') != now().strftime(''%G-W%V'') }}'
+  actions:
+  - action: input_boolean.turn_off
+    target:
+      entity_id:
+      - input_boolean.night_child_one_star_mon
+      - input_boolean.night_child_one_star_tue
+      - input_boolean.night_child_one_star_wed
+      - input_boolean.night_child_one_star_thu
+      - input_boolean.night_child_one_star_fri
+      - input_boolean.night_child_one_star_sat
+      - input_boolean.night_child_one_star_sun
+      - input_boolean.night_child_two_star_mon
+      - input_boolean.night_child_two_star_tue
+      - input_boolean.night_child_two_star_wed
+      - input_boolean.night_child_two_star_thu
+      - input_boolean.night_child_two_star_fri
+      - input_boolean.night_child_two_star_sat
+      - input_boolean.night_child_two_star_sun
+      - input_boolean.night_child_three_star_mon
+      - input_boolean.night_child_three_star_tue
+      - input_boolean.night_child_three_star_wed
+      - input_boolean.night_child_three_star_thu
+      - input_boolean.night_child_three_star_fri
+      - input_boolean.night_child_three_star_sat
+      - input_boolean.night_child_three_star_sun
+  - action: input_text.set_value
+    target:
+      entity_id: input_text.night_missions_week_key
+    data:
+      value: '{{ now().strftime(''%G-W%V'') }}'
+  mode: single
+- id: night_missions_award_child_one
+  alias: Nighttime Missions — Award Child One bedtime star
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.night_child_one_bath
+    - input_boolean.night_child_one_pjs
+    - input_boolean.night_child_one_brush_teeth
+    - input_boolean.night_child_one_go_potty
+    - input_boolean.night_child_one_bedtime_bravery
+    to: 'on'
+  conditions:
+  - condition: template
+    value_template: |-
+      {{
+              is_state('input_boolean.night_child_one_bath', 'on') and
+              is_state('input_boolean.night_child_one_pjs', 'on') and
+              is_state('input_boolean.night_child_one_brush_teeth', 'on') and
+              is_state('input_boolean.night_child_one_go_potty', 'on') and
+              is_state('input_boolean.night_child_one_bedtime_bravery', 'on')
+              and now() >= today_at('16:00')
+              and is_state('input_boolean.night_child_one_star_' ~ ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()], 'off')
+            }}
+  actions:
+  - action: input_boolean.turn_on
+    target:
+      entity_id: '{{ ''input_boolean.night_child_one_star_'' ~ [''mon'',''tue'',''wed'',''thu'',''fri'',''sat'',''sun''][now().weekday()]
+        }}'
+  mode: single
+- id: night_missions_award_child_two
+  alias: Nighttime Missions — Award Child Two bedtime star
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.night_child_two_bath
+    - input_boolean.night_child_two_pjs
+    - input_boolean.night_child_two_brush_teeth
+    - input_boolean.night_child_two_go_potty
+    - input_boolean.night_child_two_bedtime_bravery
+    to: 'on'
+  conditions:
+  - condition: template
+    value_template: |-
+      {{
+              is_state('input_boolean.night_child_two_bath', 'on') and
+              is_state('input_boolean.night_child_two_pjs', 'on') and
+              is_state('input_boolean.night_child_two_brush_teeth', 'on') and
+              is_state('input_boolean.night_child_two_go_potty', 'on') and
+              is_state('input_boolean.night_child_two_bedtime_bravery', 'on')
+              and now() >= today_at('16:00')
+              and is_state('input_boolean.night_child_two_star_' ~ ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()], 'off')
+            }}
+  actions:
+  - action: input_boolean.turn_on
+    target:
+      entity_id: '{{ ''input_boolean.night_child_two_star_'' ~ [''mon'',''tue'',''wed'',''thu'',''fri'',''sat'',''sun''][now().weekday()]
+        }}'
+  mode: single
+- id: night_missions_award_child_three
+  alias: Nighttime Missions — Award Child Three bedtime star
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.night_child_three_bath
+    - input_boolean.night_child_three_pjs
+    - input_boolean.night_child_three_brush_teeth
+    - input_boolean.night_child_three_go_potty
+    - input_boolean.night_child_three_bedtime_bravery
+    to: 'on'
+  conditions:
+  - condition: template
+    value_template: |-
+      {{
+              is_state('input_boolean.night_child_three_bath', 'on') and
+              is_state('input_boolean.night_child_three_pjs', 'on') and
+              is_state('input_boolean.night_child_three_brush_teeth', 'on') and
+              is_state('input_boolean.night_child_three_go_potty', 'on') and
+              is_state('input_boolean.night_child_three_bedtime_bravery', 'on')
+              and now() >= today_at('16:00')
+              and is_state('input_boolean.night_child_three_star_' ~ ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()], 'off')
+            }}
+  actions:
+  - action: input_boolean.turn_on
+    target:
+      entity_id: '{{ ''input_boolean.night_child_three_star_'' ~ [''mon'',''tue'',''wed'',''thu'',''fri'',''sat'',''sun''][now().weekday()]
+        }}'
+  mode: single
+script:
+  night_missions_reroll_animations:
+    alias: Nighttime Missions — Reroll animations (no task reset)
+    mode: single
+    sequence:
+    - variables:
+        pool:
+        - bounce
+        - twirl
+        - wiggle
+        - float
+        - dance
+        - cartwheel
+        - heartbeat
+        - orbit
+        - jump
+        - swing
+        - disco
+        - rocket
+        - skate
+        - shooting
+        child_one_previous: '{{ states(''input_select.night_child_one_animation'') }}'
+        child_two_previous: '{{ states(''input_select.night_child_two_animation'') }}'
+        child_three_previous: '{{ states(''input_select.night_child_three_animation'') }}'
+    - variables:
+        child_one_pick: '{{ (pool | reject(''equalto'', child_one_previous) | list) | random }}'
+    - variables:
+        child_two_pick: '{{ (pool | reject(''equalto'', child_two_previous) | reject(''equalto'', child_one_pick) | list) | random
+          }}'
+    - variables:
+        child_three_pick: '{{ (pool | reject(''equalto'', child_three_previous) | reject(''equalto'', child_one_pick) | reject(''equalto'',
+          child_two_pick) | list) | random }}'
+    - action: input_select.select_option
+      target:
+        entity_id: input_select.night_child_one_animation
+      data:
+        option: '{{ child_one_pick }}'
+    - action: input_select.select_option
+      target:
+        entity_id: input_select.night_child_two_animation
+      data:
+        option: '{{ child_two_pick }}'
+    - action: input_select.select_option
+      target:
+        entity_id: input_select.night_child_three_animation
+      data:
+        option: '{{ child_three_pick }}'

@@ -1,0 +1,100 @@
+# Copy to /config/packages/morning_missions_animation_preview.yaml
+input_number:
+  morning_preview_rocket_step:
+    name: Rocket Launch — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
+  morning_preview_flower_step:
+    name: Flower Growing — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
+  morning_preview_car_step:
+    name: Car — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
+  morning_preview_train_step:
+    name: Steam Train — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
+  morning_preview_moon_step:
+    name: Moon Landing — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
+  morning_preview_pumpkin_step:
+    name: Pumpkin Growing — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
+  morning_preview_egg_step:
+    name: Egg Hatching — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
+  morning_preview_paper_airplane_step:
+    name: Paper Airplane — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
+  morning_preview_submarine_step:
+    name: Submarine — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
+  morning_preview_castle_step:
+    name: Castle — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
+  morning_preview_dinosaur_step:
+    name: T-Rex — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
+  morning_preview_butterfly_step:
+    name: Butterfly — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
+  morning_preview_rainbow_step:
+    name: Rainbow — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
+  morning_preview_robot_step:
+    name: Robot — Preview stage
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:animation-play
