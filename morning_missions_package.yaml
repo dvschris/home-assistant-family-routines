@@ -1,0 +1,541 @@
+input_boolean:
+  child_one_brush_teeth:
+    name: Child One — Brush teeth
+    icon: mdi:toothbrush
+  child_one_eat_breakfast:
+    name: Child One — Eat breakfast
+    icon: mdi:food-apple
+  child_one_get_dressed:
+    name: Child One — Get dressed
+    icon: mdi:tshirt-crew
+  child_one_socks_shoes:
+    name: Child One — Socks & shoes
+    icon: mdi:shoe-sneaker
+  child_one_star_mon:
+    name: Child One — Mon star
+    icon: mdi:star
+  child_one_star_tue:
+    name: Child One — Tue star
+    icon: mdi:star
+  child_one_star_wed:
+    name: Child One — Wed star
+    icon: mdi:star
+  child_one_star_thu:
+    name: Child One — Thu star
+    icon: mdi:star
+  child_one_star_fri:
+    name: Child One — Fri star
+    icon: mdi:star
+  child_one_star_sat:
+    name: Child One — Sat star
+    icon: mdi:star
+  child_one_star_sun:
+    name: Child One — Sun star
+    icon: mdi:star
+  child_two_brush_teeth:
+    name: Child Two — Brush teeth
+    icon: mdi:toothbrush
+  child_two_eat_breakfast:
+    name: Child Two — Eat breakfast
+    icon: mdi:food-apple
+  child_two_get_dressed:
+    name: Child Two — Get dressed
+    icon: mdi:tshirt-crew
+  child_two_socks_shoes:
+    name: Child Two — Socks & shoes
+    icon: mdi:shoe-sneaker
+  child_two_star_mon:
+    name: Child Two — Mon star
+    icon: mdi:star
+  child_two_star_tue:
+    name: Child Two — Tue star
+    icon: mdi:star
+  child_two_star_wed:
+    name: Child Two — Wed star
+    icon: mdi:star
+  child_two_star_thu:
+    name: Child Two — Thu star
+    icon: mdi:star
+  child_two_star_fri:
+    name: Child Two — Fri star
+    icon: mdi:star
+  child_two_star_sat:
+    name: Child Two — Sat star
+    icon: mdi:star
+  child_two_star_sun:
+    name: Child Two — Sun star
+    icon: mdi:star
+  child_three_brush_teeth:
+    name: Child Three — Brush teeth
+    icon: mdi:toothbrush
+  child_three_eat_breakfast:
+    name: Child Three — Eat breakfast
+    icon: mdi:food-apple
+  child_three_get_dressed:
+    name: Child Three — Get dressed
+    icon: mdi:tshirt-crew
+  child_three_socks_shoes:
+    name: Child Three — Socks & shoes
+    icon: mdi:shoe-sneaker
+  child_three_star_mon:
+    name: Child Three — Mon star
+    icon: mdi:star
+  child_three_star_tue:
+    name: Child Three — Tue star
+    icon: mdi:star
+  child_three_star_wed:
+    name: Child Three — Wed star
+    icon: mdi:star
+  child_three_star_thu:
+    name: Child Three — Thu star
+    icon: mdi:star
+  child_three_star_fri:
+    name: Child Three — Fri star
+    icon: mdi:star
+  child_three_star_sat:
+    name: Child Three — Sat star
+    icon: mdi:star
+  child_three_star_sun:
+    name: Child Three — Sun star
+    icon: mdi:star
+  child_one_brush_hair:
+    name: Child One — Brush hair
+    icon: mdi:brush
+  child_one_go_potty:
+    name: Child One — Go potty
+    icon: mdi:toilet
+  child_two_brush_hair:
+    name: Child Two — Brush hair
+    icon: mdi:brush
+  child_two_go_potty:
+    name: Child Two — Go potty
+    icon: mdi:toilet
+  child_three_brush_hair:
+    name: Child Three — Brush hair
+    icon: mdi:brush
+  child_three_go_potty:
+    name: Child Three — Go potty
+    icon: mdi:toilet
+  morning_missions_bus_dismissed:
+    name: Morning Missions — Bus dismissed today
+    icon: mdi:bus-clock
+input_text:
+  morning_missions_week_key:
+    name: Morning Missions — Active ISO week
+    max: 12
+    icon: mdi:calendar-week
+  morning_missions_day_key:
+    name: Morning Missions — Last daily reset
+    max: 12
+    icon: mdi:calendar-today
+automation:
+- id: morning_missions_daily_reset
+  alias: Morning Missions — Reset daily tasks
+  description: Reset all 18 tasks at 04:00 daily; keep fixed animations and reroll Surprise choices.
+  triggers:
+  - trigger: time
+    at: 04:00:00
+  - trigger: homeassistant
+    event: start
+  conditions:
+  - condition: template
+    value_template: '{{ now() >= today_at(''04:00'') and states(''input_text.morning_missions_day_key'') != now().strftime(''%Y-%m-%d'') }}'
+  actions:
+  - action: input_boolean.turn_off
+    target:
+      entity_id:
+      - input_boolean.child_one_brush_teeth
+      - input_boolean.child_one_eat_breakfast
+      - input_boolean.child_one_get_dressed
+      - input_boolean.child_one_socks_shoes
+      - input_boolean.child_two_brush_teeth
+      - input_boolean.child_two_eat_breakfast
+      - input_boolean.child_two_get_dressed
+      - input_boolean.child_two_socks_shoes
+      - input_boolean.child_three_brush_teeth
+      - input_boolean.child_three_eat_breakfast
+      - input_boolean.child_three_get_dressed
+      - input_boolean.child_three_socks_shoes
+      - input_boolean.child_one_brush_hair
+      - input_boolean.child_one_go_potty
+      - input_boolean.child_two_brush_hair
+      - input_boolean.child_two_go_potty
+      - input_boolean.child_three_brush_hair
+      - input_boolean.child_three_go_potty
+      - input_boolean.morning_missions_bus_dismissed
+  - action: script.morning_missions_reroll_adventures
+  - action: input_text.set_value
+    target:
+      entity_id: input_text.morning_missions_day_key
+    data:
+      value: '{{ now().strftime(''%Y-%m-%d'') }}'
+  mode: single
+- id: morning_missions_weekly_reset
+  alias: Morning Missions — Reset weekly stars
+  description: Clear star helpers at a new ISO week, including after Home Assistant downtime.
+  triggers:
+  - trigger: time
+    at: 03:59:00
+  - trigger: homeassistant
+    event: start
+  conditions:
+  - condition: template
+    value_template: '{{ states(''input_text.morning_missions_week_key'') != now().strftime(''%G-W%V'') }}'
+  actions:
+  - action: input_boolean.turn_off
+    target:
+      entity_id:
+      - input_boolean.child_one_star_mon
+      - input_boolean.child_one_star_tue
+      - input_boolean.child_one_star_wed
+      - input_boolean.child_one_star_thu
+      - input_boolean.child_one_star_fri
+      - input_boolean.child_one_star_sat
+      - input_boolean.child_one_star_sun
+      - input_boolean.child_two_star_mon
+      - input_boolean.child_two_star_tue
+      - input_boolean.child_two_star_wed
+      - input_boolean.child_two_star_thu
+      - input_boolean.child_two_star_fri
+      - input_boolean.child_two_star_sat
+      - input_boolean.child_two_star_sun
+      - input_boolean.child_three_star_mon
+      - input_boolean.child_three_star_tue
+      - input_boolean.child_three_star_wed
+      - input_boolean.child_three_star_thu
+      - input_boolean.child_three_star_fri
+      - input_boolean.child_three_star_sat
+      - input_boolean.child_three_star_sun
+  - action: input_text.set_value
+    target:
+      entity_id: input_text.morning_missions_week_key
+    data:
+      value: '{{ now().strftime(''%G-W%V'') }}'
+  mode: single
+- id: morning_missions_child_one_award
+  alias: Morning Missions — Award Child One star
+  description: One star per day whenever all six tasks are completed, without a deadline.
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.child_one_brush_teeth
+    - input_boolean.child_one_eat_breakfast
+    - input_boolean.child_one_get_dressed
+    - input_boolean.child_one_socks_shoes
+    - input_boolean.child_one_brush_hair
+    - input_boolean.child_one_go_potty
+    to: 'on'
+  conditions:
+  - condition: template
+    value_template: |-
+      {{
+                          is_state('input_boolean.child_one_brush_teeth', 'on') and
+                          is_state('input_boolean.child_one_eat_breakfast', 'on') and
+                          is_state('input_boolean.child_one_get_dressed', 'on') and
+                          is_state('input_boolean.child_one_socks_shoes', 'on') and
+                          is_state('input_boolean.child_one_brush_hair', 'on') and
+                          is_state('input_boolean.child_one_go_potty', 'on')
+                          and is_state('input_boolean.child_one_star_' ~
+                            ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()], 'off')
+                        }}
+  actions:
+  - action: input_boolean.turn_on
+    target:
+      entity_id: '{{ ''input_boolean.child_one_star_'' ~ [''mon'',''tue'',''wed'',''thu'',''fri'',''sat'',''sun''][now().weekday()] }}'
+  mode: single
+- id: morning_missions_child_two_award
+  alias: Morning Missions — Award Child Two star
+  description: One star per day whenever all six tasks are completed, without a deadline.
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.child_two_brush_teeth
+    - input_boolean.child_two_eat_breakfast
+    - input_boolean.child_two_get_dressed
+    - input_boolean.child_two_socks_shoes
+    - input_boolean.child_two_brush_hair
+    - input_boolean.child_two_go_potty
+    to: 'on'
+  conditions:
+  - condition: template
+    value_template: |-
+      {{
+                          is_state('input_boolean.child_two_brush_teeth', 'on') and
+                          is_state('input_boolean.child_two_eat_breakfast', 'on') and
+                          is_state('input_boolean.child_two_get_dressed', 'on') and
+                          is_state('input_boolean.child_two_socks_shoes', 'on') and
+                          is_state('input_boolean.child_two_brush_hair', 'on') and
+                          is_state('input_boolean.child_two_go_potty', 'on')
+                          and is_state('input_boolean.child_two_star_' ~
+                            ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()], 'off')
+                        }}
+  actions:
+  - action: input_boolean.turn_on
+    target:
+      entity_id: '{{ ''input_boolean.child_two_star_'' ~ [''mon'',''tue'',''wed'',''thu'',''fri'',''sat'',''sun''][now().weekday()] }}'
+  mode: single
+- id: morning_missions_child_three_award
+  alias: Morning Missions — Award Child Three star
+  description: One star per day whenever all six tasks are completed, without a deadline.
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.child_three_brush_teeth
+    - input_boolean.child_three_eat_breakfast
+    - input_boolean.child_three_get_dressed
+    - input_boolean.child_three_socks_shoes
+    - input_boolean.child_three_brush_hair
+    - input_boolean.child_three_go_potty
+    to: 'on'
+  conditions:
+  - condition: template
+    value_template: |-
+      {{
+                          is_state('input_boolean.child_three_brush_teeth', 'on') and
+                          is_state('input_boolean.child_three_eat_breakfast', 'on') and
+                          is_state('input_boolean.child_three_get_dressed', 'on') and
+                          is_state('input_boolean.child_three_socks_shoes', 'on') and
+                          is_state('input_boolean.child_three_brush_hair', 'on') and
+                          is_state('input_boolean.child_three_go_potty', 'on')
+                          and is_state('input_boolean.child_three_star_' ~
+                            ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()], 'off')
+                        }}
+  actions:
+  - action: input_boolean.turn_on
+    target:
+      entity_id: '{{ ''input_boolean.child_three_star_'' ~ [''mon'',''tue'',''wed'',''thu'',''fri'',''sat'',''sun''][now().weekday()] }}'
+  mode: single
+- id: morning_missions_apply_animation_preference
+  alias: Morning Missions — Apply animation preference
+  description: Apply a changed choice immediately for that child only; preserve tasks and stars.
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_select.morning_missions_child_one_animation_preference
+    - input_select.morning_missions_child_two_animation_preference
+    - input_select.morning_missions_child_three_animation_preference
+  conditions:
+  - condition: template
+    value_template: '{{ trigger.to_state is not none and trigger.from_state is not none and trigger.to_state.state not in [''unknown'',''unavailable''] and trigger.from_state.state != trigger.to_state.state }}'
+  actions:
+  - variables:
+      child: '{{ trigger.entity_id.split(''morning_missions_'')[1].replace(''_animation_preference'','''') }}'
+      choices: &id001
+        Rocket: rocket
+        Flower: flower
+        Race car: car
+        Steam train: train
+        Moon landing: moon
+        Pumpkin: pumpkin
+        Hatching egg: egg
+        Paper airplane: paper_airplane
+        Submarine: submarine
+        Castle: castle
+        T-Rex: dinosaur
+        Butterfly: butterfly
+        Rainbow: rainbow
+        Robot: robot
+        Hatching dragon: dragon
+      themes:
+      - rocket
+      - flower
+      - car
+      - train
+      - moon
+      - pumpkin
+      - egg
+      - paper_airplane
+      - submarine
+      - castle
+      - dinosaur
+      - butterfly
+      - rainbow
+      - robot
+      - dragon
+  - variables:
+      target_theme: '{{ ''input_select.morning_missions_'' ~ child ~ ''_theme'' }}'
+      fixed: '{{ choices.get(trigger.to_state.state, '''') }}'
+  - action: input_select.select_option
+    target:
+      entity_id: '{{ target_theme }}'
+    data:
+      option: '{{ fixed if fixed else ((themes | reject(''equalto'', states(target_theme)) | list) | random) }}'
+  mode: queued
+  max: 10
+input_select:
+  morning_missions_child_one_theme:
+    name: Child One — daily adventure
+    icon: mdi:creation
+    options:
+    - rocket
+    - flower
+    - car
+    - train
+    - moon
+    - pumpkin
+    - egg
+    - paper_airplane
+    - submarine
+    - castle
+    - dinosaur
+    - butterfly
+    - rainbow
+    - robot
+    - dragon
+  morning_missions_child_two_theme:
+    name: Child Two — daily adventure
+    icon: mdi:creation
+    options:
+    - rocket
+    - flower
+    - car
+    - train
+    - moon
+    - pumpkin
+    - egg
+    - paper_airplane
+    - submarine
+    - castle
+    - dinosaur
+    - butterfly
+    - rainbow
+    - robot
+    - dragon
+  morning_missions_child_three_theme:
+    name: Child Three — daily adventure
+    icon: mdi:creation
+    options:
+    - rocket
+    - flower
+    - car
+    - train
+    - moon
+    - pumpkin
+    - egg
+    - paper_airplane
+    - submarine
+    - castle
+    - dinosaur
+    - butterfly
+    - rainbow
+    - robot
+    - dragon
+  morning_missions_child_one_animation_preference:
+    name: Child One — animation choice
+    icon: mdi:animation-play
+    options:
+    - Surprise
+    - Rocket
+    - Flower
+    - Race car
+    - Steam train
+    - Moon landing
+    - Pumpkin
+    - Hatching egg
+    - Paper airplane
+    - Submarine
+    - Castle
+    - T-Rex
+    - Butterfly
+    - Rainbow
+    - Robot
+    - Hatching dragon
+  morning_missions_child_two_animation_preference:
+    name: Child Two — animation choice
+    icon: mdi:animation-play
+    options:
+    - Surprise
+    - Rocket
+    - Flower
+    - Race car
+    - Steam train
+    - Moon landing
+    - Pumpkin
+    - Hatching egg
+    - Paper airplane
+    - Submarine
+    - Castle
+    - T-Rex
+    - Butterfly
+    - Rainbow
+    - Robot
+    - Hatching dragon
+  morning_missions_child_three_animation_preference:
+    name: Child Three — animation choice
+    icon: mdi:animation-play
+    options:
+    - Surprise
+    - Rocket
+    - Flower
+    - Race car
+    - Steam train
+    - Moon landing
+    - Pumpkin
+    - Hatching egg
+    - Paper airplane
+    - Submarine
+    - Castle
+    - T-Rex
+    - Butterfly
+    - Rainbow
+    - Robot
+    - Hatching dragon
+script:
+  morning_missions_reroll_adventures:
+    alias: Morning Missions — Reroll adventures (manual)
+    description: Apply fixed animation choices; choose a fresh random adventure for Surprise without clearing tasks or stars.
+    mode: single
+    sequence:
+    - variables:
+        themes:
+        - rocket
+        - flower
+        - car
+        - train
+        - moon
+        - pumpkin
+        - egg
+        - paper_airplane
+        - submarine
+        - castle
+        - dinosaur
+        - butterfly
+        - rainbow
+        - robot
+        - dragon
+        choices: *id001
+        child_one_last: '{{ states(''input_select.morning_missions_child_one_theme'') }}'
+        child_two_last: '{{ states(''input_select.morning_missions_child_two_theme'') }}'
+        child_three_last: '{{ states(''input_select.morning_missions_child_three_theme'') }}'
+        child_one_fixed: '{{ choices.get(states(''input_select.morning_missions_child_one_animation_preference''), '''') }}'
+        child_two_fixed: '{{ choices.get(states(''input_select.morning_missions_child_two_animation_preference''), '''') }}'
+        child_three_fixed: '{{ choices.get(states(''input_select.morning_missions_child_three_animation_preference''), '''') }}'
+    - variables:
+        child_one_pick: '{{ child_one_fixed if child_one_fixed else ((themes | reject(''equalto'', child_one_last) | reject(''equalto'', child_two_fixed) | reject(''equalto'', child_three_fixed) | list) | random) }}'
+    - variables:
+        child_two_pick: '{{ child_two_fixed if child_two_fixed else ((themes | reject(''equalto'', child_two_last) | reject(''equalto'', child_one_fixed) | reject(''equalto'', child_three_fixed) | reject(''equalto'', child_one_pick) | list) | random) }}'
+    - variables:
+        child_three_pick: '{{ child_three_fixed if child_three_fixed else ((themes | reject(''equalto'', child_three_last) | reject(''equalto'', child_one_fixed) | reject(''equalto'', child_two_fixed) | reject(''equalto'', child_one_pick) | reject(''equalto'', child_two_pick) | list) | random) }}'
+    - action: input_select.select_option
+      target:
+        entity_id: input_select.morning_missions_child_one_theme
+      data:
+        option: '{{ child_one_pick }}'
+    - action: input_select.select_option
+      target:
+        entity_id: input_select.morning_missions_child_two_theme
+      data:
+        option: '{{ child_two_pick }}'
+    - action: input_select.select_option
+      target:
+        entity_id: input_select.morning_missions_child_three_theme
+      data:
+        option: '{{ child_three_pick }}'
+input_number:
+  morning_preview_dragon_step:
+    name: Preview — Hatching dragon step
+    min: 0
+    max: 6
+    step: 1
+    mode: slider
+    icon: mdi:dragon

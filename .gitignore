@@ -1,0 +1,8 @@
+secrets.yaml
+.storage/
+*.db
+*.db-*
+*.log
+.env
+.env.*
+__pycache__/
